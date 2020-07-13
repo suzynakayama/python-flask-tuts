@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+#! import requests
 
 app = Flask(__name__)                                             ## the __name__ references this file
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'      ## 3 slashes (/) means it is relative to the app.py path
@@ -28,7 +29,6 @@ class BlogPost(db.Model):
 
 @app.route('/')                                                   ## use decorator (@) with route to create the route
 def index():
-  # third_party_posts = request.get('https://jsonplaceholder.typicode.com/posts')
   return render_template('index.html')                            ## it renders the template found with the same name on the templates folder
 
 @app.route('/posts', methods=['GET', 'POST'])
@@ -64,6 +64,9 @@ def edit(id):
   else:
     return render_template('edit.html', post=post)
 
+#! To get 3rd party API data install requests lib and use:
+#! response = requests.get('https://jsonplaceholder.typicode.com/posts').json()
+#! print(response)
 
 if __name__ == '__main__':                                        ## if we are in developer mode
   app.run(debug=True)                                             ## turn debug mode on, so we can see the errors, not just a 404
